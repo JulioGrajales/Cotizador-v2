@@ -23,10 +23,10 @@
             <v-row>
               <v-col cols="3">
                 <v-select
-                  :items="languages"
+                  :items="languagesList"
                   color="#042956"
                   label="Language"
-                  v-model="languageValue"
+                  v-model="selectedLanguage"
                 ></v-select>
               </v-col>
             </v-row>
@@ -41,7 +41,7 @@
                 color="#042956"
                 editable
               >
-                Ingresa nombre de prospecto
+                {{paso1TextoCabezera}}
               </v-stepper-step>
 
               <v-divider></v-divider>
@@ -52,7 +52,7 @@
                 color="#042956"
                 editable
               >
-                Selecciona las propiedades
+                {{paso2TextoCabezera}}
               </v-stepper-step>
 
               <v-divider></v-divider>
@@ -63,7 +63,7 @@
                 color="#042956"
                 editable
               >
-                Elegir moneda
+                {{paso3TextoCabezera}}
               </v-stepper-step>
 
               <v-divider></v-divider>
@@ -74,7 +74,7 @@
                 color="#042956"
                 editable
               >
-                Forma de pago
+                {{paso4TextoCabezera}}
               </v-stepper-step>
 
               <v-divider></v-divider>
@@ -85,56 +85,55 @@
                 color="#042956"
                 editable
               >
-                Corrida financiera
+                {{paso5TextoCabezera}}
               </v-stepper-step>
             </v-stepper-header>
 
             <v-stepper-items>
               <v-stepper-content step="1">
                 <div>
+                  
                   <v-text-field
-                    label="Nombre del pospecto"
+                    :label="nombreProspectoLabel"
                     prepend-inner-icon="account_circle"
                     color="#042956"
+                    v-model="nombreProspecto"
+                    clearable
                   ></v-text-field>
                 </div>
 
-                <btnNextStep v-on:nextStep="nextStep"/>
+                <btnNextStep v-on:nextStep="nextStep" :message="msgBtnSig"/>
 
-                
               </v-stepper-content>
 
               <v-stepper-content step="2">
                 <v-autocomplete
-                  :items="items"
-                  v-model="values"
+                  :items="listaPropiedadesIDs"
+                  v-model="listaPropiedadesSeleccionadas"
                   clearable
                   chips
                   color="#042956"
                   prepend-inner-icon="apartment"
-                  label="Propiedades"
+                  :label="propiedadesLabel"
                   multiple
                   deletable-chips></v-autocomplete>
 
 
                 <div class="d-flex justify-space-between">
-                  <btnPreviousStep v-on:previousStep="previousStep" />
-                  <v-spacer></v-spacer>
-                  <btnNextStep v-on:nextStep="nextStep"/>
+                  <btnPreviousStep v-on:previousStep="previousStep" :message="msgBtnPrev"/>
+                  <btnNextStep v-on:nextStep="nextStep" :message="msgBtnSig"/>
                 </div>
-
 
               </v-stepper-content>
 
               <v-stepper-content step="3">
                 
-
                 <div class="pl-3">
                   <p>
                     <v-icon>
                       monetization_on
                     </v-icon>
-                    Elije tu moneda
+                    {{elijeMoneda}}
                   </p>
                 
                   <v-radio-group
@@ -143,13 +142,13 @@
                   >
                     
                     <v-radio
-                      label="US Dollar"
+                      :label="usDollarLabel"
                       value="USD"
                       color="#042956"
                     ></v-radio>
 
                     <v-radio
-                      label="Pesos Mexicanos"
+                      :label="mxPesoLabel"
                       value="MXN"
                       color="#042956"
                     ></v-radio>
@@ -158,7 +157,7 @@
 
                   <div v-show="moneda == 'MXN'">
                     <v-text-field
-                      label="Tipo de cambio"
+                      :label="tipoCambioLabel"
                       v-model="tipoCambio"
                       prefix="$"
                       type="number"
@@ -168,14 +167,9 @@
                   </div>
                 </div>
 
-                
-
-                
-
                 <div class="d-flex justify-space-between">
-                  <btnPreviousStep v-on:previousStep="previousStep" />
-                  <v-spacer></v-spacer>
-                  <btnNextStep v-on:nextStep="nextStep"/>
+                  <btnPreviousStep v-on:previousStep="previousStep" :message="msgBtnPrev"/>
+                  <btnNextStep v-on:nextStep="nextStep" :message="msgBtnSig"/>
                 </div>
                 
               </v-stepper-content>
@@ -187,7 +181,7 @@
                     <v-icon>
                       credit_card
                     </v-icon>
-                    Elije tu forma de pago
+                    {{metodoPagoLabel}}
                   </p>
                 
                   <v-radio-group
@@ -196,13 +190,13 @@
                   >
                     
                     <v-radio
-                      label="Financiamiento"
+                      :label="financiamientoLabel"
                       value="financiamiento"
                       color="#042956"
                     ></v-radio>
 
                     <v-radio
-                      label="Contado"
+                      :label="contadoLabel"
                       value="contado"
                       color="#042956"
                     ></v-radio>
@@ -210,19 +204,19 @@
 
 
                   <div>
-                    <!-- Enganche,numeroFinanciamientoMeses,Reserva,Descuento(porcentaje,fijo) -->
+                    <!-- Enganche,numeroFinanciamientoMeses,Reserva,Descuento(porcentajeLabel,fijoLabel) -->
                     <v-row>
                       <v-col cols="4">
                         <v-select
                           :items="porcentajesEnganche"
-                          label="Enganche"
+                          :label="engancheLabel"
                           v-model="porcentajeEnganche"
                           color="#042956"
                         ></v-select>
                       </v-col>
                       <v-col cols="4">
                         <v-text-field
-                          label="Cantidad de reserva"
+                          :label="reservaLabel"
                           v-model="cantidadReserva"
                           prefix="$"
                           type="number"
@@ -235,7 +229,7 @@
                         <div v-show="formaPago == 'financiamiento'">
                           <v-select
                             :items="mesesFinanciamiento"
-                            label="Meses en financiamiento"
+                            :label="mesesLabel"
                             v-model="mesesFinanciamientoSeleccionados"
                             color="#042956"
                           ></v-select>
@@ -248,26 +242,26 @@
                   <v-icon>
                     sell
                   </v-icon>
-                  Elije el tipo de descuento
+                  {{tipoDescuentoLabel}}
                   <v-radio-group
                     v-model="tipoDescuento"
                     row
                   >
                     
                     <v-radio
-                      label="Porcentaje"
+                      :label="porcentajeLabel"
                       value="porcentaje"
                       color="#042956"
                     ></v-radio>
 
                     <v-radio
-                      label="Fijo"
+                      :label="fijoLabel"
                       value="fijo"
                       color="#042956"
                     ></v-radio>
                   </v-radio-group>
                   <v-text-field
-                    :label="tipoDescuento == 'porcentaje' ? 'Descuento %' : 'Descuento $'"
+                    :label="tipoDescuento == 'porcentaje' ? descuentoLabel+' %' : descuentoLabel+' $' "
                     v-model="cantidadDescuento"
                     type="number"
                     step="0.01"
@@ -275,37 +269,11 @@
                   ></v-text-field>
                 </div>
 
-                <div>
-                  <!-- <v-radio-group
-                    v-model="tipoDescuento"
-                    row
-                  >
-                    
-                    <v-radio
-                      label="Porcentaje"
-                      value="porcentaje"
-                      color="#042956"
-                    ></v-radio>
-
-                    <v-radio
-                      label="Fijo"
-                      value="fijo"
-                      color="#042956"
-                    ></v-radio>
-                  </v-radio-group>
-                  <v-text-field
-                    :label="tipoDescuento == 'porcentaje' ? 'Descuento %' : 'Descuento $'"
-                    v-model="cantidadDescuento"
-                    type="number"
-                    step="0.01"
-                    color="#042956"
-                  ></v-text-field> -->
-                </div>
+                
 
                 <div class="d-flex justify-space-between">
-                  <btnPreviousStep v-on:previousStep="previousStep" />
-                  <v-spacer></v-spacer>
-                  <btnNextStep v-on:nextStep="nextStep"/>
+                  <btnPreviousStep v-on:previousStep="previousStep" :message="msgBtnPrev"/>
+                  <btnNextStep v-on:nextStep="nextStep" :message="msgBtnSig"/>
                 </div>
 
               </v-stepper-content>
@@ -313,97 +281,132 @@
 
               <v-stepper-content step="5">
                 
-                <div v-show="formaPago == 'financiamiento'">
-                  <v-simple-table>
-                    <template v-slot:default>
-                      <thead>
-                        <tr>
-                          <th class="text-left">
-                            
-                          </th>
-                          <th class="text-left">
-                            Porcentaje
-                          </th>
-                          <th class="text-left">
-                            Dolares
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Reserva</td>
-                          <td>1.12%</td>
-                          <td>$5000 USD</td>
-                        </tr>
-                        <tr>
-                          <td>Enganche</td>
-                          <td>48.88%</td>
-                          <td>$217,768 USD</td>
-                        </tr>
-                        <tr>
-                          <td>Financiamiento</td>
-                          <td>50%</td>
-                          <td>$222,768 USD</td>
-                        </tr>
-                        <tr>
-                          <td>36 Mensualidades</td>
-                          <td></td>
-                          <td>$6188 USD</td>
-                        </tr>
-                        <tr>
-                          <td>Total a pagar</td>
-                          <td>100%</td>
-                          <td>$445,536 USD</td>
-                        </tr>
-                      </tbody>
-                    </template>
-                  </v-simple-table>
+                <div v-if="listaPropiedadesSeleccionadas.length == 0">
+                  {{noHayNada}}
+                </div>
+                <div v-else>
+                  <div v-show="formaPago == 'financiamiento'">
+                    <v-simple-table>
+                      <template v-slot:default>
+                        <thead>
+                          <tr>
+                            <th class="text-left">
+                              
+                            </th>
+                            <th class="text-left">
+                              {{porcentajeLabel}}
+                            </th>
+                            <th class="text-left">
+                              {{moneda}}
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>{{reservaLabel}}</td>
+                            <td>{{porcentajeFormatter.format(porcentajeReserva)}}</td>
+                            <td>{{moneda+' '+monedaFormatter.format(cantidadReserva)}}</td>
+                          </tr>
+                          <tr>
+                            <td>{{engancheLabel}}</td>
+                            <td>{{porcentajeFormatter.format(porcentajeEnganche-porcentajeReserva)}}</td>
+                            <td>{{moneda+' '+monedaFormatter.format(precioEnganche)}}</td>
+                          </tr>
+                          <tr>
+                            <td>{{financiamientoLabel}}</td>
+                            <td>{{porcentajeFormatter.format(porcentajeFinanciamiento)}}</td>
+                            <td>{{moneda+' '+monedaFormatter.format(cantidadFinanciamiento)}}</td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span class="font-weight-bold">
+                                {{mesesFinanciamientoSeleccionados}}
+                              </span>
+                              {{' '+mesesLabel}}
+                            </td>
+                            <td></td>
+                            <td>
+                              {{moneda+' '+monedaFormatter.format(cantidadFinanciamiento/mesesFinanciamientoSeleccionados)}}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              Total
+                              <span v-if="cantidadDescuento > 0" class="font-weight-bold">
+                                {{menosDescuentoLabel}}
+                              </span>
+                            </td>
+                            <td>100%</td>
+                            <td>{{moneda+' '+monedaFormatter.format(precioTotal)}}</td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+                  </div>
+                  
+                  <div v-show="formaPago == 'contado'">
+                    <!-- Contado -->
+                    <v-simple-table>
+                      <template v-slot:default>
+                        <thead>
+                          <tr>
+                            <th class="text-left">
+                              
+                            </th>
+                            <th class="text-left">
+                              {{porcentajeLabel}}
+                            </th>
+                            <th class="text-left">
+                              {{moneda}}
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>{{reservaLabel}}</td>
+                            <td>{{porcentajeFormatter.format(porcentajeReserva)}}</td>
+                            <td>{{moneda+' '+monedaFormatter.format(cantidadReserva)}}</td>
+                          </tr>
+                          <tr>
+                            <td>{{engancheLabel}}</td>
+                            <td>{{porcentajeFormatter.format(porcentajeEnganche-porcentajeReserva)}}</td>
+                            <td>{{moneda+' '+monedaFormatter.format(precioEnganche)}}</td>
+                          </tr>
+                          <tr>
+                            <td>{{contadoLabel}}</td>
+                            <td>{{porcentajeFormatter.format(porcentajeFinanciamiento)}}</td>
+                            <td>{{moneda+' '+monedaFormatter.format(cantidadFinanciamiento)}}</td>
+                          </tr>
+                          
+                          <tr>
+                            <td>
+                              Total
+                              <span v-if="cantidadDescuento > 0" class="font-weight-bold">
+                                {{menosDescuentoLabel}}
+                              </span>
+                            </td>
+                            <td>100%</td>
+                            <td>{{moneda+' '+monedaFormatter.format(precioTotal)}}</td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+                  </div>
+
                 </div>
 
-                <div v-show="formaPago == 'contado'">
-                  <v-simple-table>
-                    <template v-slot:default>
-                      <thead>
-                        <tr>
-                          <th class="text-left">
-                            
-                          </th>
-                          <th class="text-left">
-                            Porcentaje
-                          </th>
-                          <th class="text-left">
-                            Dolares
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Reserva</td>
-                          <td>1.12%</td>
-                          <td>$5000 USD</td>
-                        </tr>
-                        <tr>
-                          <td>Enganche</td>
-                          <td>48.88%</td>
-                          <td>$217,768 USD</td>
-                        </tr>
-                        <tr>
-                          <td>Total a pagar</td>
-                          <td>100%</td>
-                          <td>$445,536 USD</td>
-                        </tr>
-                      </tbody>
-                    </template>
-                  </v-simple-table>
-                </div>
+                
+
+                
 
                 <div class="d-flex justify-space-between">
-                  <btnPreviousStep v-on:previousStep="previousStep" />
+                  <btnPreviousStep v-on:previousStep="previousStep" :message="msgBtnPrev"/>
                   <v-spacer></v-spacer>
                   <div>
                     <v-btn
                       color="#042956"
                       class="white--text"
+                      
                     >
                       Imprimir PDF
                       <v-icon
@@ -436,25 +439,36 @@ import btnPreviousStep from './components/btnPreviousStep';
 export default {
   name: 'App',
   data: () => ({
-    info: null,
+    listaPropiedadesInfo: null,
     loading: true,
     errored: false,
-    items: [],
-    values: [],
+    listaPropiedadesIDs: [],
+    listaPropiedadesSeleccionadas: ['A101','A104'],
     overlay: true,
     stepNumber: 1,
-    languages: ['English','Español'],
-    languageValue: 'Español',
+    languagesList: ['English','Español'],
+    selectedLanguage: 'Español',
     moneda: 'USD',
     tipoCambio: 20,
     formaPago: 'financiamiento',
-    porcentajesEnganche: ['10%','20%','30%','40%','50%','60%','70%','80%','90%','100%'],
-    porcentajeEnganche: '10%',
-    mesesFinanciamientoSeleccionados: 6,
+    porcentajesEnganche: [
+      {text: '10%', value: 0.10},{text: '20%', value: 0.20},{text: '30%', value: 0.30},{text: '40%', value: 0.40},
+      {text: '50%', value: 0.50},{text: '60%', value: 0.60},{text: '70%', value: 0.70},{text: '80%', value: 0.80},
+      {text: '90%', value: 0.90},{text: '100%', value: 1},
+    ],
+    porcentajeEnganche: 0.50,
+    mesesFinanciamientoSeleccionados: 36,
     mesesFinanciamiento: [6,12,18,24,30,36],
     cantidadReserva: 5000,
     tipoDescuento: 'porcentaje',
-    cantidadDescuento: 0,
+    cantidadDescuento: 10,
+    nombreProspecto: null,
+    monedaFormatter: new Intl.NumberFormat('en-US' , {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0
+    }),
+    porcentajeFormatter: new Intl.NumberFormat('en-US', {style: 'percent',maximumFractionDigits:2}),
   }),
   mounted() {
     const Token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YmE5NGRhNTM3MDEyYzNlMjFjYTg3YWYiLCJuYW1lIjoiVGhlIEJvYXQgU2l0aW8gV2ViIiwib3JpZ2luIjoid2Vic2l0ZSIsInJvbGUiOiJhZG1pbiIsImFjY2Vzc19ncm91cCI6IjVkZjhlMDg0MGVhMmEwNjkwMGJlYjdlMyJ9.Ab1e8I9zz8CRgtsO597VqJ5LYtOGxYIvQtzKpGT1T68';
@@ -473,11 +487,12 @@ export default {
       config)
     .then(response => {
 
-      this.info = response.data.Data;
+      this.listaPropiedadesInfo = response.data.Data.Property;
+      console.log(this.listaPropiedadesInfo);
 
       for (const propiedad of response.data.Data.Property) {
         if (propiedad.contract_status === 'disponible') {
-          this.items.push(propiedad.code);
+          this.listaPropiedadesIDs.push(propiedad.code);
         }
       }
 
@@ -499,6 +514,124 @@ export default {
   components: {
     btnNextStep,
     btnPreviousStep
-  }
+  },
+  computed: {
+    paso1TextoCabezera() {
+      return this.selectedLanguage == 'Español' ? 'Ingresa nombre del prospecto' : "Enter the prospect's name";
+    },
+    paso2TextoCabezera() {
+      return this.selectedLanguage == 'Español' ? 'Selecciona las propiedades' : 'select the properties';
+    },
+    paso3TextoCabezera() {
+      return this.selectedLanguage == 'Español' ? 'Elegir moneda' : 'Choose currency';
+    },
+    paso4TextoCabezera() {
+      return this.selectedLanguage == 'Español' ? 'Forma de pago' : 'Payment method';
+    },
+    paso5TextoCabezera() {
+      return this.selectedLanguage == 'Español' ? 'Esquema de pagos' : 'Payment scheme';
+    },
+    msgBtnSig() {
+      return this.selectedLanguage == 'Español' ? 'Siguiente' : 'Next';
+    },
+    msgBtnPrev() {
+      return this.selectedLanguage == 'Español' ? 'Atras' : 'Previous';
+    },
+    nombreProspectoLabel() {
+      return this.selectedLanguage == 'Español' ? 'Nombre del prospecto' : "Prospect's name";
+    },
+    propiedadesLabel() {
+      return this.selectedLanguage == 'Español' ? 'Propiedades' : "Properties";
+    },
+    elijeMoneda() {
+      return this.selectedLanguage == 'Español' ? 'Elije la moneda' : "Choose the currency";
+    },
+    tipoCambioLabel() {
+      return this.selectedLanguage == 'Español' ? 'Tipo de cambio' : "Exchange rate";
+    },
+    usDollarLabel() {
+      return this.selectedLanguage == 'Español' ? 'Dolares Estadounidenses' : "US Dollars";
+    },
+    mxPesoLabel() {
+      return this.selectedLanguage == 'Español' ? 'Pesos Mexicanos' : "Mexican Peso";
+    },
+    metodoPagoLabel() {
+      return this.selectedLanguage == 'Español' ? 'Elije tu forma de pago' : 'Choose your payment method';
+    },
+    financiamientoLabel() {
+      return this.selectedLanguage == 'Español' ? 'Financiamiento' : 'Financing';
+    },
+    contadoLabel() {
+      return this.selectedLanguage == 'Español' ? 'Contado' : 'Cash';
+    },
+    engancheLabel() {
+      return this.selectedLanguage == 'Español' ? 'Enganche' : 'DownPayment';
+    },
+    reservaLabel() {
+      return this.selectedLanguage == 'Español' ? 'Reserva' : 'Reserve';
+    },
+    mesesLabel() {
+      return this.selectedLanguage == 'Español' ? 'Pagos mensuales' : 'Monthly payments';
+    },
+    tipoDescuentoLabel() {
+      return this.selectedLanguage == 'Español' ? 'Elije el tipo de descuento' : 'Choose the discount type';
+    },
+    porcentajeLabel() {
+      return this.selectedLanguage == 'Español' ? 'Porcentaje' : 'Percentage';
+    },
+    fijoLabel() {
+      return this.selectedLanguage == 'Español' ? 'Fijo' : 'Fixed';
+    },
+    descuentoLabel() {
+      return this.selectedLanguage == 'Español' ? 'Descuento' : 'Discount';
+    },
+    noHayNada() {
+      return this.selectedLanguage == 'Español' ? 'Favor de seleccionar las propiedades' : 'Please select your properties';
+    },
+
+    precioTotal() {
+      let precioTotalSum = 0;
+      for(const propiedadInfo of this.listaPropiedadesInfo) {
+        for(const propId of this.listaPropiedadesSeleccionadas) {
+          if(propiedadInfo.code == propId) {
+            precioTotalSum+= propiedadInfo.pricing.price;
+          }
+        }
+      }
+      if(this.moneda == 'MXN') {
+        precioTotalSum = precioTotalSum * this.tipoCambio;
+      }
+
+      if(this.tipoDescuento == 'porcentaje') {
+        return precioTotalSum - precioTotalSum * this.cantidadDescuento / 100;
+      } else {
+        return precioTotalSum - this.cantidadDescuento;
+      }
+    },
+    porcentajeFinanciamiento() {
+      return 1 - this.porcentajeEnganche;
+    },
+    cantidadFinanciamiento() {
+      return this.precioTotal * this.porcentajeFinanciamiento;
+    },
+    porcentajeReserva() {
+      return this.cantidadReserva / this.precioTotal;
+    },
+    precioEnganche() {
+      return this.porcentajeEnganche*this.precioTotal-this.cantidadReserva
+    },
+    menosDescuentoLabel() {
+      if(this.selectedLanguage == 'Español') {
+        return this.tipoDescuento == 'porcentaje' 
+        ? `(Menos ${this.cantidadDescuento}% de descuento)` 
+        : `(Menos ${this.moneda + ' '+this.monedaFormatter.format(this.cantidadDescuento)} de descuento)`;
+      } else {
+        return this.tipoDescuento == 'porcentaje' 
+        ? `(Minus ${this.cantidadDescuento}% discount)` 
+        : `(Minus ${this.moneda + ' '+this.monedaFormatter.format(this.cantidadDescuento)} discount)`;
+      }
+    }
+  },
 };
+// moneda+' '+monedaFormatter.format(
 </script>

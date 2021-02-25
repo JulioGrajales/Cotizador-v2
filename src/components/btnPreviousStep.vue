@@ -9,7 +9,7 @@
       >
         arrow_back
       </v-icon>
-      Atras
+      {{message}}
     </v-btn>
   </div>
 </template>
@@ -22,8 +22,8 @@ export default {
       this.$emit('previousStep');
     }
   },
-  computed: {
-
+  props: {
+    message: String
   }
 }
 </script>

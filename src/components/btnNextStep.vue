@@ -5,7 +5,7 @@
       @click="nextStep"
       class="white--text"
     >
-      Siguiente
+      {{message}}
       <v-icon
         right
       >
@@ -22,6 +22,9 @@ export default {
     nextStep() {
       this.$emit('nextStep');
     }
+  },
+  props: {
+    message: String,
   }
 }
 </script>
