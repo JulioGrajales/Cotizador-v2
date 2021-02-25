@@ -204,7 +204,7 @@
 
 
                   <div>
-                    <!-- Enganche,numeroFinanciamientoMeses,Reserva,Descuento(porcentajeLabel,fijoLabel) -->
+                    
                     <v-row>
                       <v-col cols="4">
                         <v-select
@@ -443,7 +443,7 @@ export default {
     loading: true,
     errored: false,
     listaPropiedadesIDs: [],
-    listaPropiedadesSeleccionadas: ['A101','A104'],
+    listaPropiedadesSeleccionadas: [],
     overlay: true,
     stepNumber: 1,
     languagesList: ['English','Español'],
@@ -633,5 +633,4 @@ export default {
     }
   },
 };
-// moneda+' '+monedaFormatter.format(
 </script>
