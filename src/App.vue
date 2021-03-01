@@ -307,17 +307,18 @@
                             <td>{{porcentajeFormatter.format(porcentajeReserva)}}</td>
                             <td>{{moneda+' '+monedaFormatter.format(cantidadReserva)}}</td>
                           </tr>
-                          <tr>
+                          <!-- Aqui -->
+                          <tr v-show="porcentajeEnganche">
                             <td>{{engancheLabel}}</td>
                             <td>{{porcentajeFormatter.format(porcentajeEnganche-porcentajeReserva)}}</td>
                             <td>{{moneda+' '+monedaFormatter.format(precioEnganche)}}</td>
                           </tr>
-                          <tr>
+                          <tr v-show="porcentajeEnganche">
                             <td>{{financiamientoLabel}}</td>
                             <td>{{porcentajeFormatter.format(porcentajeFinanciamiento)}}</td>
                             <td>{{moneda+' '+monedaFormatter.format(cantidadFinanciamiento)}}</td>
                           </tr>
-                          <tr>
+                          <tr v-show="porcentajeEnganche">
                             <td>
                               <span class="font-weight-bold">
                                 {{mesesFinanciamientoSeleccionados}}
@@ -329,6 +330,29 @@
                               {{moneda+' '+monedaFormatter.format(cantidadFinanciamiento/mesesFinanciamientoSeleccionados)}}
                             </td>
                           </tr>
+
+                          <!-- Copia -->
+                          <tr v-show="!porcentajeEnganche">
+                            <td>{{financiamientoLabel}}</td>
+                            <td>{{porcentajeFormatter.format(1-porcentajeReserva)}}</td>
+                            <td>{{moneda+' '+monedaFormatter.format(precioTotal-cantidadReserva)}}</td>
+                          </tr>
+                          <tr v-show="!porcentajeEnganche">
+                            <td>
+                              <span class="font-weight-bold">
+                                {{mesesFinanciamientoSeleccionados}}
+                              </span>
+                              {{' '+mesesLabel}}
+                            </td>
+                            <td></td>
+                            <td>
+                              {{moneda+' '+monedaFormatter.format((precioTotal-cantidadReserva)/mesesFinanciamientoSeleccionados)}}
+                            </td>
+                          </tr>
+
+
+
+
                           <tr>
                             <td>
                               Total
@@ -367,16 +391,25 @@
                             <td>{{porcentajeFormatter.format(porcentajeReserva)}}</td>
                             <td>{{moneda+' '+monedaFormatter.format(cantidadReserva)}}</td>
                           </tr>
-                          <tr>
+
+                          <tr v-show="porcentajeEnganche">
                             <td>{{engancheLabel}}</td>
                             <td>{{porcentajeFormatter.format(porcentajeEnganche-porcentajeReserva)}}</td>
                             <td>{{moneda+' '+monedaFormatter.format(precioEnganche)}}</td>
                           </tr>
-                          <tr>
+
+                          <tr v-show="!porcentajeEnganche">
+                            <td>{{contadoLabel}}</td>
+                            <td>{{porcentajeFormatter.format(1-porcentajeReserva)}}</td>
+                            <td>{{moneda+' '+monedaFormatter.format(precioEnganche)}}</td>
+                          </tr>
+
+                          <tr v-show="porcentajeEnganche">
                             <td>{{contadoLabel}}</td>
                             <td>{{porcentajeFormatter.format(porcentajeFinanciamiento)}}</td>
                             <td>{{moneda+' '+monedaFormatter.format(cantidadFinanciamiento)}}</td>
                           </tr>
+
                           
                           <tr>
                             <td>
@@ -443,7 +476,7 @@ export default {
     loading: true,
     errored: false,
     listaPropiedadesIDs: [],
-    listaPropiedadesSeleccionadas: [],
+    listaPropiedadesSeleccionadas: ['A101','A104'],
     overlay: true,
     stepNumber: 1,
     languagesList: ['English','Español'],
@@ -452,9 +485,10 @@ export default {
     tipoCambio: 20,
     formaPago: 'financiamiento',
     porcentajesEnganche: [
+      {text: 'Sin enganche', value: 0},
       {text: '10%', value: 0.10},{text: '20%', value: 0.20},{text: '30%', value: 0.30},{text: '40%', value: 0.40},
       {text: '50%', value: 0.50},{text: '60%', value: 0.60},{text: '70%', value: 0.70},{text: '80%', value: 0.80},
-      {text: '90%', value: 0.90},{text: '100%', value: 1},
+      {text: '90%', value: 0.90},
     ],
     porcentajeEnganche: 0.50,
     mesesFinanciamientoSeleccionados: 36,
@@ -618,7 +652,12 @@ export default {
       return this.cantidadReserva / this.precioTotal;
     },
     precioEnganche() {
-      return this.porcentajeEnganche*this.precioTotal-this.cantidadReserva
+      if(this.porcentajeEnganche != 0) {
+        return this.porcentajeEnganche*this.precioTotal-this.cantidadReserva;
+      } else {
+        return this.precioTotal-this.cantidadReserva;
+      }
+      
     },
     menosDescuentoLabel() {
       if(this.selectedLanguage == 'Español') {
