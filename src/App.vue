@@ -307,7 +307,7 @@
                             <td>{{porcentajeFormatter.format(porcentajeReserva)}}</td>
                             <td>{{moneda+' '+monedaFormatter.format(cantidadReserva)}}</td>
                           </tr>
-                          <!-- Aqui -->
+                          <!-- Si hay enganche -->
                           <tr v-show="porcentajeEnganche">
                             <td>{{engancheLabel}}</td>
                             <td>{{porcentajeFormatter.format(porcentajeEnganche-porcentajeReserva)}}</td>
@@ -331,7 +331,7 @@
                             </td>
                           </tr>
 
-                          <!-- Copia -->
+                          <!-- Si no hay enganche -->
                           <tr v-show="!porcentajeEnganche">
                             <td>{{financiamientoLabel}}</td>
                             <td>{{porcentajeFormatter.format(1-porcentajeReserva)}}</td>
@@ -369,7 +369,7 @@
                   </div>
                   
                   <div v-show="formaPago == 'contado'">
-                    <!-- Contado -->
+                    
                     <v-simple-table>
                       <template v-slot:default>
                         <thead>
@@ -392,18 +392,21 @@
                             <td>{{moneda+' '+monedaFormatter.format(cantidadReserva)}}</td>
                           </tr>
 
+                          <!-- Si hay enganche se muestra -->
                           <tr v-show="porcentajeEnganche">
                             <td>{{engancheLabel}}</td>
                             <td>{{porcentajeFormatter.format(porcentajeEnganche-porcentajeReserva)}}</td>
                             <td>{{moneda+' '+monedaFormatter.format(precioEnganche)}}</td>
                           </tr>
 
+                          <!-- Si no hay enganche se muestra -->
                           <tr v-show="!porcentajeEnganche">
                             <td>{{contadoLabel}}</td>
                             <td>{{porcentajeFormatter.format(1-porcentajeReserva)}}</td>
                             <td>{{moneda+' '+monedaFormatter.format(precioEnganche)}}</td>
                           </tr>
 
+                          <!-- Si hay enganche se muestra -->
                           <tr v-show="porcentajeEnganche">
                             <td>{{contadoLabel}}</td>
                             <td>{{porcentajeFormatter.format(porcentajeFinanciamiento)}}</td>
