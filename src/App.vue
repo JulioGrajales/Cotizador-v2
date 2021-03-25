@@ -5,21 +5,13 @@
     </div>
     <div v-else>
       <div v-if="loading">
-        <v-overlay
-          color="#042956"
-          opacity="1"
-        >
-          <v-progress-circular
-            indeterminate
-            size="64"
-          ></v-progress-circular>
+        <v-overlay color="#042956" opacity="1">
+          <v-progress-circular indeterminate size="64"></v-progress-circular>
         </v-overlay>
       </div>
       <div v-else>
         <v-container>
-
           <div class="pb-2">
-
             <v-row>
               <v-col cols="3">
                 <v-select
@@ -30,7 +22,6 @@
                 ></v-select>
               </v-col>
             </v-row>
-
           </div>
 
           <v-stepper v-model="stepNumber">
@@ -41,7 +32,7 @@
                 color="#042956"
                 editable
               >
-                {{paso1TextoCabezera}}
+                {{ paso1TextoCabezera }}
               </v-stepper-step>
 
               <v-divider></v-divider>
@@ -52,7 +43,7 @@
                 color="#042956"
                 editable
               >
-                {{paso2TextoCabezera}}
+                {{ paso2TextoCabezera }}
               </v-stepper-step>
 
               <v-divider></v-divider>
@@ -63,7 +54,7 @@
                 color="#042956"
                 editable
               >
-                {{paso3TextoCabezera}}
+                {{ paso3TextoCabezera }}
               </v-stepper-step>
 
               <v-divider></v-divider>
@@ -74,7 +65,7 @@
                 color="#042956"
                 editable
               >
-                {{paso4TextoCabezera}}
+                {{ paso4TextoCabezera }}
               </v-stepper-step>
 
               <v-divider></v-divider>
@@ -85,14 +76,13 @@
                 color="#042956"
                 editable
               >
-                {{paso5TextoCabezera}}
+                {{ paso5TextoCabezera }}
               </v-stepper-step>
             </v-stepper-header>
 
             <v-stepper-items>
               <v-stepper-content step="1">
                 <div>
-                  
                   <v-text-field
                     :label="nombreProspectoLabel"
                     prepend-inner-icon="account_circle"
@@ -102,8 +92,7 @@
                   ></v-text-field>
                 </div>
 
-                <btnNextStep v-on:nextStep="nextStep" :message="msgBtnSig"/>
-
+                <btnNextStep v-on:nextStep="nextStep" :message="msgBtnSig" />
               </v-stepper-content>
 
               <v-stepper-content step="2">
@@ -116,31 +105,28 @@
                   prepend-inner-icon="apartment"
                   :label="propiedadesLabel"
                   multiple
-                  deletable-chips></v-autocomplete>
-
+                  deletable-chips
+                ></v-autocomplete>
 
                 <div class="d-flex justify-space-between">
-                  <btnPreviousStep v-on:previousStep="previousStep" :message="msgBtnPrev"/>
-                  <btnNextStep v-on:nextStep="nextStep" :message="msgBtnSig"/>
+                  <btnPreviousStep
+                    v-on:previousStep="previousStep"
+                    :message="msgBtnPrev"
+                  />
+                  <btnNextStep v-on:nextStep="nextStep" :message="msgBtnSig" />
                 </div>
-
               </v-stepper-content>
 
               <v-stepper-content step="3">
-                
                 <div class="pl-3">
                   <p>
                     <v-icon>
                       monetization_on
                     </v-icon>
-                    {{elijeMoneda}}
+                    {{ elijeMoneda }}
                   </p>
-                
-                  <v-radio-group
-                    v-model="moneda"
-                    row
-                  >
-                    
+
+                  <v-radio-group v-model="moneda" row>
                     <v-radio
                       :label="usDollarLabel"
                       value="USD"
@@ -153,7 +139,6 @@
                       color="#042956"
                     ></v-radio>
                   </v-radio-group>
-
 
                   <div v-show="moneda == 'MXN'">
                     <v-text-field
@@ -168,27 +153,24 @@
                 </div>
 
                 <div class="d-flex justify-space-between">
-                  <btnPreviousStep v-on:previousStep="previousStep" :message="msgBtnPrev"/>
-                  <btnNextStep v-on:nextStep="nextStep" :message="msgBtnSig"/>
+                  <btnPreviousStep
+                    v-on:previousStep="previousStep"
+                    :message="msgBtnPrev"
+                  />
+                  <btnNextStep v-on:nextStep="nextStep" :message="msgBtnSig" />
                 </div>
-                
               </v-stepper-content>
 
               <v-stepper-content step="4">
-                
                 <div class="pl-3">
                   <p>
                     <v-icon>
                       credit_card
                     </v-icon>
-                    {{metodoPagoLabel}}
+                    {{ metodoPagoLabel }}
                   </p>
-                
-                  <v-radio-group
-                    v-model="formaPago"
-                    row
-                  >
-                    
+
+                  <v-radio-group v-model="formaPago" row>
                     <v-radio
                       :label="financiamientoLabel"
                       value="financiamiento"
@@ -202,9 +184,7 @@
                     ></v-radio>
                   </v-radio-group>
 
-
                   <div>
-                    
                     <v-row>
                       <v-col cols="4">
                         <v-select
@@ -225,7 +205,6 @@
                         ></v-text-field>
                       </v-col>
                       <v-col cols="4">
-                        
                         <div v-show="formaPago == 'financiamiento'">
                           <v-select
                             :items="mesesFinanciamiento"
@@ -234,20 +213,14 @@
                             color="#042956"
                           ></v-select>
                         </div>
-                        
                       </v-col>
                     </v-row>
-
                   </div>
                   <v-icon>
                     sell
                   </v-icon>
-                  {{tipoDescuentoLabel}}
-                  <v-radio-group
-                    v-model="tipoDescuento"
-                    row
-                  >
-                    
+                  {{ tipoDescuentoLabel }}
+                  <v-radio-group v-model="tipoDescuento" row>
                     <v-radio
                       :label="porcentajeLabel"
                       value="porcentaje"
@@ -261,7 +234,11 @@
                     ></v-radio>
                   </v-radio-group>
                   <v-text-field
-                    :label="tipoDescuento == 'porcentaje' ? descuentoLabel+' %' : descuentoLabel+' $' "
+                    :label="
+                      tipoDescuento == 'porcentaje'
+                        ? descuentoLabel + ' %'
+                        : descuentoLabel + ' $'
+                    "
                     v-model="cantidadDescuento"
                     type="number"
                     step="0.01"
@@ -269,20 +246,18 @@
                   ></v-text-field>
                 </div>
 
-                
-
                 <div class="d-flex justify-space-between">
-                  <btnPreviousStep v-on:previousStep="previousStep" :message="msgBtnPrev"/>
-                  <btnNextStep v-on:nextStep="nextStep" :message="msgBtnSig"/>
+                  <btnPreviousStep
+                    v-on:previousStep="previousStep"
+                    :message="msgBtnPrev"
+                  />
+                  <btnNextStep v-on:nextStep="nextStep" :message="msgBtnSig" />
                 </div>
-
               </v-stepper-content>
 
-
               <v-stepper-content step="5">
-                
                 <div v-if="listaPropiedadesSeleccionadas.length == 0">
-                  {{noHayNada}}
+                  {{ noHayNada }}
                 </div>
                 <div v-else>
                   <div v-show="formaPago == 'financiamiento'">
@@ -290,173 +265,282 @@
                       <template v-slot:default>
                         <thead>
                           <tr>
+                            <th class="text-left"></th>
                             <th class="text-left">
-                              
+                              {{ porcentajeLabel }}
                             </th>
                             <th class="text-left">
-                              {{porcentajeLabel}}
-                            </th>
-                            <th class="text-left">
-                              {{moneda}}
+                              {{ moneda }}
                             </th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>{{reservaLabel}}</td>
-                            <td>{{porcentajeFormatter.format(porcentajeReserva)}}</td>
-                            <td>{{moneda+' '+monedaFormatter.format(cantidadReserva)}}</td>
+                          <tr v-show="cantidadReserva > 0">
+                            <td>{{ reservaLabel }}</td>
+                            <td>
+                              {{
+                                porcentajeFormatter.format(porcentajeReserva)
+                              }}
+                            </td>
+                            <td>
+                              {{
+                                moneda +
+                                  " " +
+                                  monedaFormatter.format(cantidadReserva)
+                              }}
+                            </td>
                           </tr>
                           <!-- Si hay enganche -->
                           <tr v-show="porcentajeEnganche">
-                            <td>{{engancheLabel}}</td>
-                            <td>{{porcentajeFormatter.format(porcentajeEnganche-porcentajeReserva)}}</td>
-                            <td>{{moneda+' '+monedaFormatter.format(precioEnganche)}}</td>
+                            <td>{{ engancheLabel }}</td>
+                            <td>
+                              {{
+                                porcentajeFormatter.format(
+                                  porcentajeEnganche - porcentajeReserva
+                                )
+                              }}
+                            </td>
+                            <td>
+                              {{
+                                moneda +
+                                  " " +
+                                  monedaFormatter.format(precioEnganche)
+                              }}
+                            </td>
                           </tr>
                           <tr v-show="porcentajeEnganche">
-                            <td>{{financiamientoLabel}}</td>
-                            <td>{{porcentajeFormatter.format(porcentajeFinanciamiento)}}</td>
-                            <td>{{moneda+' '+monedaFormatter.format(cantidadFinanciamiento)}}</td>
+                            <td>{{ financiamientoLabel }}</td>
+                            <td>
+                              {{
+                                porcentajeFormatter.format(
+                                  porcentajeFinanciamiento
+                                )
+                              }}
+                            </td>
+                            <td>
+                              {{
+                                moneda +
+                                  " " +
+                                  monedaFormatter.format(cantidadFinanciamiento)
+                              }}
+                            </td>
                           </tr>
                           <tr v-show="porcentajeEnganche">
                             <td>
                               <span class="font-weight-bold">
-                                {{mesesFinanciamientoSeleccionados}}
+                                {{ mesesFinanciamientoSeleccionados }}
                               </span>
-                              {{' '+mesesLabel}}
+                              {{ " " + mesesLabel }}
                             </td>
                             <td></td>
                             <td>
-                              {{moneda+' '+monedaFormatter.format(cantidadFinanciamiento/mesesFinanciamientoSeleccionados)}}
+                              {{
+                                moneda +
+                                  " " +
+                                  monedaFormatter.format(
+                                    cantidadFinanciamiento /
+                                      mesesFinanciamientoSeleccionados
+                                  )
+                              }}
                             </td>
                           </tr>
 
                           <!-- Si no hay enganche -->
                           <tr v-show="!porcentajeEnganche">
-                            <td>{{financiamientoLabel}}</td>
-                            <td>{{porcentajeFormatter.format(1-porcentajeReserva)}}</td>
-                            <td>{{moneda+' '+monedaFormatter.format(precioTotal-cantidadReserva)}}</td>
+                            <td>{{ financiamientoLabel }}</td>
+                            <td>
+                              {{
+                                porcentajeFormatter.format(
+                                  1 - porcentajeReserva
+                                )
+                              }}
+                            </td>
+                            <td>
+                              {{
+                                moneda +
+                                  " " +
+                                  monedaFormatter.format(
+                                    precioTotal - cantidadReserva
+                                  )
+                              }}
+                            </td>
                           </tr>
                           <tr v-show="!porcentajeEnganche">
                             <td>
                               <span class="font-weight-bold">
-                                {{mesesFinanciamientoSeleccionados}}
+                                {{ mesesFinanciamientoSeleccionados }}
                               </span>
-                              {{' '+mesesLabel}}
+                              {{ " " + mesesLabel }}
                             </td>
                             <td></td>
                             <td>
-                              {{moneda+' '+monedaFormatter.format((precioTotal-cantidadReserva)/mesesFinanciamientoSeleccionados)}}
+                              {{
+                                moneda +
+                                  " " +
+                                  monedaFormatter.format(
+                                    (precioTotal - cantidadReserva) /
+                                      mesesFinanciamientoSeleccionados
+                                  )
+                              }}
                             </td>
                           </tr>
-
-
-
 
                           <tr>
                             <td>
                               Total
-                              <span v-if="cantidadDescuento > 0" class="font-weight-bold">
-                                {{menosDescuentoLabel}}
+                              <span
+                                v-if="cantidadDescuento > 0"
+                                class="font-weight-bold"
+                              >
+                                {{ menosDescuentoLabel }}
                               </span>
                             </td>
                             <td>100%</td>
-                            <td>{{moneda+' '+monedaFormatter.format(precioTotal)}}</td>
+                            <td>
+                              {{
+                                moneda +
+                                  " " +
+                                  monedaFormatter.format(precioTotal)
+                              }}
+                            </td>
                           </tr>
                         </tbody>
                       </template>
                     </v-simple-table>
                   </div>
-                  
+
                   <div v-show="formaPago == 'contado'">
-                    
                     <v-simple-table>
                       <template v-slot:default>
                         <thead>
                           <tr>
+                            <th class="text-left"></th>
                             <th class="text-left">
-                              
+                              {{ porcentajeLabel }}
                             </th>
                             <th class="text-left">
-                              {{porcentajeLabel}}
-                            </th>
-                            <th class="text-left">
-                              {{moneda}}
+                              {{ moneda }}
                             </th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>{{reservaLabel}}</td>
-                            <td>{{porcentajeFormatter.format(porcentajeReserva)}}</td>
-                            <td>{{moneda+' '+monedaFormatter.format(cantidadReserva)}}</td>
+                          <tr v-show="cantidadReserva > 0">
+                            <td>{{ reservaLabel }}</td>
+                            <td>
+                              {{
+                                porcentajeFormatter.format(porcentajeReserva)
+                              }}
+                            </td>
+                            <td>
+                              {{
+                                moneda +
+                                  " " +
+                                  monedaFormatter.format(cantidadReserva)
+                              }}
+                            </td>
                           </tr>
 
                           <!-- Si hay enganche se muestra -->
                           <tr v-show="porcentajeEnganche">
-                            <td>{{engancheLabel}}</td>
-                            <td>{{porcentajeFormatter.format(porcentajeEnganche-porcentajeReserva)}}</td>
-                            <td>{{moneda+' '+monedaFormatter.format(precioEnganche)}}</td>
+                            <td>{{ engancheLabel }}</td>
+                            <td>
+                              {{
+                                porcentajeFormatter.format(
+                                  porcentajeEnganche - porcentajeReserva
+                                )
+                              }}
+                            </td>
+                            <td>
+                              {{
+                                moneda +
+                                  " " +
+                                  monedaFormatter.format(precioEnganche)
+                              }}
+                            </td>
                           </tr>
 
                           <!-- Si no hay enganche se muestra -->
                           <tr v-show="!porcentajeEnganche">
-                            <td>{{contadoLabel}}</td>
-                            <td>{{porcentajeFormatter.format(1-porcentajeReserva)}}</td>
-                            <td>{{moneda+' '+monedaFormatter.format(precioEnganche)}}</td>
+                            <td>{{ contadoLabel }}</td>
+                            <td>
+                              {{
+                                porcentajeFormatter.format(
+                                  1 - porcentajeReserva
+                                )
+                              }}
+                            </td>
+                            <td>
+                              {{
+                                moneda +
+                                  " " +
+                                  monedaFormatter.format(precioEnganche)
+                              }}
+                            </td>
                           </tr>
 
                           <!-- Si hay enganche se muestra -->
                           <tr v-show="porcentajeEnganche">
-                            <td>{{contadoLabel}}</td>
-                            <td>{{porcentajeFormatter.format(porcentajeFinanciamiento)}}</td>
-                            <td>{{moneda+' '+monedaFormatter.format(cantidadFinanciamiento)}}</td>
+                            <td>{{ contadoLabel }}</td>
+                            <td>
+                              {{
+                                porcentajeFormatter.format(
+                                  porcentajeFinanciamiento
+                                )
+                              }}
+                            </td>
+                            <td>
+                              {{
+                                moneda +
+                                  " " +
+                                  monedaFormatter.format(cantidadFinanciamiento)
+                              }}
+                            </td>
                           </tr>
 
-                          
                           <tr>
                             <td>
                               Total
-                              <span v-if="cantidadDescuento > 0" class="font-weight-bold">
-                                {{menosDescuentoLabel}}
+                              <span
+                                v-if="cantidadDescuento > 0"
+                                class="font-weight-bold"
+                              >
+                                {{ menosDescuentoLabel }}
                               </span>
                             </td>
                             <td>100%</td>
-                            <td>{{moneda+' '+monedaFormatter.format(precioTotal)}}</td>
+                            <td>
+                              {{
+                                moneda +
+                                  " " +
+                                  monedaFormatter.format(precioTotal)
+                              }}
+                            </td>
                           </tr>
                         </tbody>
                       </template>
                     </v-simple-table>
                   </div>
-
                 </div>
 
-                
-
-                
-
                 <div class="d-flex justify-space-between">
-                  <btnPreviousStep v-on:previousStep="previousStep" :message="msgBtnPrev"/>
+                  <btnPreviousStep
+                    v-on:previousStep="previousStep"
+                    :message="msgBtnPrev"
+                  />
                   <v-spacer></v-spacer>
                   <div>
                     <v-btn
+                      v-on:click="createPdf"
                       color="#042956"
                       class="white--text"
-                      
                     >
-                      Imprimir PDF
-                      <v-icon
-                        right
-                      >
+                      PDF
+                      <v-icon right>
                         arrow_forward
                       </v-icon>
                     </v-btn>
                   </div>
                 </div>
-
-
-                
-
               </v-stepper-content>
             </v-stepper-items>
           </v-stepper>
@@ -467,78 +551,91 @@
 </template>
 
 <script>
-
-import axios from 'axios';
-import btnNextStep from './components/btnNextStep';
-import btnPreviousStep from './components/btnPreviousStep';
+import format from "./pdf/format";
+import axios from "axios";
+import btnNextStep from "./components/btnNextStep";
+import btnPreviousStep from "./components/btnPreviousStep";
 
 export default {
-  name: 'App',
+  name: "App",
   data: () => ({
     listaPropiedadesInfo: null,
     loading: true,
     errored: false,
     listaPropiedadesIDs: [],
-    listaPropiedadesSeleccionadas: ['A101','A104'],
+    listaPropiedadesSeleccionadas: [],
     overlay: true,
     stepNumber: 1,
-    languagesList: ['English','Español'],
-    selectedLanguage: 'Español',
-    moneda: 'USD',
+    languagesList: ["English", "Español"],
+    selectedLanguage: "Español",
+    moneda: "USD",
     tipoCambio: 20,
-    formaPago: 'financiamiento',
+    formaPago: "financiamiento",
     porcentajesEnganche: [
-      {text: 'Sin enganche', value: 0},
-      {text: '10%', value: 0.10},{text: '20%', value: 0.20},{text: '30%', value: 0.30},{text: '40%', value: 0.40},
-      {text: '50%', value: 0.50},{text: '60%', value: 0.60},{text: '70%', value: 0.70},{text: '80%', value: 0.80},
-      {text: '90%', value: 0.90},
+      { text: "Sin enganche", value: 0 },
+      { text: "10%", value: 0.1 },
+      { text: "20%", value: 0.2 },
+      { text: "30%", value: 0.3 },
+      { text: "40%", value: 0.4 },
+      { text: "50%", value: 0.5 },
+      { text: "60%", value: 0.6 },
+      { text: "70%", value: 0.7 },
+      { text: "80%", value: 0.8 },
+      { text: "90%", value: 0.9 },
     ],
-    porcentajeEnganche: 0.50,
+    porcentajeEnganche: 0.5,
     mesesFinanciamientoSeleccionados: 36,
-    mesesFinanciamiento: [6,12,18,24,30,36],
+    mesesFinanciamiento: [6, 12, 18, 24, 30, 36],
     cantidadReserva: 5000,
-    tipoDescuento: 'porcentaje',
+    tipoDescuento: "porcentaje",
     cantidadDescuento: 10,
-    nombreProspecto: null,
-    monedaFormatter: new Intl.NumberFormat('en-US' , {
-      style: 'currency',
-      currency: 'USD',
-      maximumFractionDigits: 0
+    nombreProspecto: "",
+    monedaFormatter: new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 0,
     }),
-    porcentajeFormatter: new Intl.NumberFormat('en-US', {style: 'percent',maximumFractionDigits:2}),
+    porcentajeFormatter: new Intl.NumberFormat("en-US", {
+      style: "percent",
+      maximumFractionDigits: 2,
+    }),
   }),
   mounted() {
-    const Token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YmE5NGRhNTM3MDEyYzNlMjFjYTg3YWYiLCJuYW1lIjoiVGhlIEJvYXQgU2l0aW8gV2ViIiwib3JpZ2luIjoid2Vic2l0ZSIsInJvbGUiOiJhZG1pbiIsImFjY2Vzc19ncm91cCI6IjVkZjhlMDg0MGVhMmEwNjkwMGJlYjdlMyJ9.Ab1e8I9zz8CRgtsO597VqJ5LYtOGxYIvQtzKpGT1T68';
+    //format.portada(this.nombreProspecto, this.selectedLanguage);
+    //format.departamentos(this.datos);
+
+    const Token =
+      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YmE5NGRhNTM3MDEyYzNlMjFjYTg3YWYiLCJuYW1lIjoiVGhlIEJvYXQgU2l0aW8gV2ViIiwib3JpZ2luIjoid2Vic2l0ZSIsInJvbGUiOiJhZG1pbiIsImFjY2Vzc19ncm91cCI6IjVkZjhlMDg0MGVhMmEwNjkwMGJlYjdlMyJ9.Ab1e8I9zz8CRgtsO597VqJ5LYtOGxYIvQtzKpGT1T68";
 
     const config = {
-      headers: { Authorization: `Bearer ${Token}`}
+      headers: { Authorization: `Bearer ${Token}` },
     };
 
     const bodyParameters = {
-      real_estate_development_code: 'the-boat'
+      real_estate_development_code: "the-boat",
     };
 
-    axios.post(
-      'https://dev.api.capital28.investments/api/property/list',
-      bodyParameters,
-      config)
-    .then(response => {
+    axios
+      .post(
+        "https://dev.api.capital28.investments/api/property/list",
+        bodyParameters,
+        config
+      )
+      .then((response) => {
+        this.listaPropiedadesInfo = response.data.Data.Property;
+        console.log(this.listaPropiedadesInfo);
 
-      this.listaPropiedadesInfo = response.data.Data.Property;
-      console.log(this.listaPropiedadesInfo);
-
-      for (const propiedad of response.data.Data.Property) {
-        if (propiedad.contract_status === 'disponible') {
-          this.listaPropiedadesIDs.push(propiedad.code);
+        for (const propiedad of response.data.Data.Property) {
+          if (propiedad.contract_status === "disponible") {
+            this.listaPropiedadesIDs.push(propiedad.code);
+          }
         }
-      }
-
-    })
-    .catch(err => {
-      console.error(err);
-      this.errored = true;
-    })
-    .finally(() => this.loading = false);
+      })
+      .catch((err) => {
+        console.error(err);
+        this.errored = true;
+      })
+      .finally(() => (this.loading = false));
   },
   methods: {
     nextStep() {
@@ -546,101 +643,268 @@ export default {
     },
     previousStep() {
       this.stepNumber--;
-    }
+    },
+    createPdf() {
+      //console.log(this.datos);
+
+      let dts = [];
+
+      if (this.cantidadReserva > 0) {
+        dts.push([
+          this.reservaLabel,
+          this.porcentajeFormatter.format(this.porcentajeReserva),
+          this.moneda + " " + this.monedaFormatter.format(this.cantidadReserva),
+        ]);
+      }
+
+      if (this.formaPago == "financiamiento") {
+        if (this.porcentajeEnganche) {
+          dts.push([
+            this.engancheLabel,
+            this.porcentajeFormatter.format(
+              this.porcentajeEnganche - this.porcentajeReserva
+            ),
+            this.moneda +
+              " " +
+              this.monedaFormatter.format(this.precioEnganche),
+          ]);
+          dts.push([
+            this.financiamientoLabel,
+            this.porcentajeFormatter.format(this.porcentajeFinanciamiento),
+            this.moneda +
+              " " +
+              this.monedaFormatter.format(this.cantidadFinanciamiento),
+          ]);
+          dts.push([
+            this.mesesFinanciamientoSeleccionados + " " + this.mesesLabel,
+            "",
+            this.moneda +
+              " " +
+              this.monedaFormatter.format(
+                this.cantidadFinanciamiento /
+                  this.mesesFinanciamientoSeleccionados
+              ),
+          ]);
+        }
+
+        if (!this.porcentajeEnganche) {
+          dts.push([
+            this.financiamientoLabel,
+            this.porcentajeFormatter.format(1 - this.porcentajeReserva),
+            this.moneda +
+              " " +
+              this.monedaFormatter.format(
+                this.precioTotal - this.cantidadReserva
+              ),
+          ]);
+          dts.push([
+            this.mesesFinanciamientoSeleccionados + " " + this.mesesLabel,
+            "",
+            this.moneda +
+              " " +
+              this.monedaFormatter.format(
+                (this.precioTotal - this.cantidadReserva) /
+                  this.mesesFinanciamientoSeleccionados
+              ),
+          ]);
+        }
+        dts.push([
+          this.cantidadDescuento > 0
+            ? "Total " + this.menosDescuentoLabel
+            : "Total ",
+          "100 %",
+          this.moneda + " " + this.monedaFormatter.format(this.precioTotal),
+        ]);
+      }
+
+      if (this.formaPago == "contado") {
+        if (this.porcentajeEnganche) {
+          //dts.push([, ,]);
+
+          dts.push([
+            this.engancheLabel,
+            this.porcentajeFormatter.format(
+              this.porcentajeEnganche - this.porcentajeReserva
+            ),
+            this.moneda +
+              " " +
+              this.monedaFormatter.format(this.precioEnganche),
+          ]);
+          dts.push([
+            this.contadoLabel,
+            this.porcentajeFormatter.format(this.porcentajeFinanciamiento),
+            this.moneda +
+              " " +
+              this.monedaFormatter.format(this.cantidadFinanciamiento),
+          ]);
+        }
+
+        if (!this.porcentajeEnganche) {
+          dts.push([
+            this.contadoLabel,
+            this.porcentajeFormatter.format(1 - this.porcentajeReserva),
+            this.moneda +
+              " " +
+              this.monedaFormatter.format(this.precioEnganche),
+          ]);
+        }
+
+        dts.push([
+          this.cantidadDescuento > 0
+            ? "Total " + this.menosDescuentoLabel
+            : "Total ",
+          "100 %",
+          this.moneda + " " + this.monedaFormatter.format(this.precioTotal),
+        ]);
+      }
+
+      if (this.nombreProspecto && this.precioTotal > 0) {
+        format.portada(
+          this.nombreProspecto,
+          "CANDELA LOPEZ",
+          this.selectedLanguage
+        );
+        format.departamentos(
+          this.nombreProspecto,
+          this.datos,
+          "CANDELA LOPEZ",
+          this.selectedLanguage,
+          dts,
+          this.moneda,
+          this.tipoCambio
+        );
+      } else {
+        alert(
+          this.selectedLanguage == "Español"
+            ? "Complete todos los campos por favor"
+            : "Complete all fields please"
+        );
+      }
+    },
   },
   components: {
     btnNextStep,
-    btnPreviousStep
+    btnPreviousStep,
   },
   computed: {
     paso1TextoCabezera() {
-      return this.selectedLanguage == 'Español' ? 'Ingresa nombre del prospecto' : "Enter the prospect's name";
+      return this.selectedLanguage == "Español"
+        ? "Ingresa nombre del prospecto"
+        : "Enter the prospect's name";
     },
     paso2TextoCabezera() {
-      return this.selectedLanguage == 'Español' ? 'Selecciona las propiedades' : 'select the properties';
+      return this.selectedLanguage == "Español"
+        ? "Selecciona las propiedades"
+        : "select the properties";
     },
     paso3TextoCabezera() {
-      return this.selectedLanguage == 'Español' ? 'Elegir moneda' : 'Choose currency';
+      return this.selectedLanguage == "Español"
+        ? "Elegir moneda"
+        : "Choose currency";
     },
     paso4TextoCabezera() {
-      return this.selectedLanguage == 'Español' ? 'Forma de pago' : 'Payment method';
+      return this.selectedLanguage == "Español"
+        ? "Forma de pago"
+        : "Payment method";
     },
     paso5TextoCabezera() {
-      return this.selectedLanguage == 'Español' ? 'Esquema de pagos' : 'Payment scheme';
+      return this.selectedLanguage == "Español"
+        ? "Esquema de pagos"
+        : "Payment scheme";
     },
     msgBtnSig() {
-      return this.selectedLanguage == 'Español' ? 'Siguiente' : 'Next';
+      return this.selectedLanguage == "Español" ? "Siguiente" : "Next";
     },
     msgBtnPrev() {
-      return this.selectedLanguage == 'Español' ? 'Atras' : 'Previous';
+      return this.selectedLanguage == "Español" ? "Atras" : "Previous";
     },
     nombreProspectoLabel() {
-      return this.selectedLanguage == 'Español' ? 'Nombre del prospecto' : "Prospect's name";
+      return this.selectedLanguage == "Español"
+        ? "Nombre del prospecto"
+        : "Prospect's name";
     },
     propiedadesLabel() {
-      return this.selectedLanguage == 'Español' ? 'Propiedades' : "Properties";
+      return this.selectedLanguage == "Español" ? "Propiedades" : "Properties";
     },
     elijeMoneda() {
-      return this.selectedLanguage == 'Español' ? 'Elije la moneda' : "Choose the currency";
+      return this.selectedLanguage == "Español"
+        ? "Elije la moneda"
+        : "Choose the currency";
     },
     tipoCambioLabel() {
-      return this.selectedLanguage == 'Español' ? 'Tipo de cambio' : "Exchange rate";
+      return this.selectedLanguage == "Español"
+        ? "Tipo de cambio"
+        : "Exchange rate";
     },
     usDollarLabel() {
-      return this.selectedLanguage == 'Español' ? 'Dolares Estadounidenses' : "US Dollars";
+      return this.selectedLanguage == "Español"
+        ? "Dolares Estadounidenses"
+        : "US Dollars";
     },
     mxPesoLabel() {
-      return this.selectedLanguage == 'Español' ? 'Pesos Mexicanos' : "Mexican Peso";
+      return this.selectedLanguage == "Español"
+        ? "Pesos Mexicanos"
+        : "Mexican Peso";
     },
     metodoPagoLabel() {
-      return this.selectedLanguage == 'Español' ? 'Elije tu forma de pago' : 'Choose your payment method';
+      return this.selectedLanguage == "Español"
+        ? "Elije tu forma de pago"
+        : "Choose your payment method";
     },
     financiamientoLabel() {
-      return this.selectedLanguage == 'Español' ? 'Financiamiento' : 'Financing';
+      return this.selectedLanguage == "Español"
+        ? "Financiamiento"
+        : "Financing";
     },
     contadoLabel() {
-      return this.selectedLanguage == 'Español' ? 'Contado' : 'Cash';
+      return this.selectedLanguage == "Español" ? "Contado" : "Cash";
     },
     engancheLabel() {
-      return this.selectedLanguage == 'Español' ? 'Enganche' : 'DownPayment';
+      return this.selectedLanguage == "Español" ? "Enganche" : "DownPayment";
     },
     reservaLabel() {
-      return this.selectedLanguage == 'Español' ? 'Reserva' : 'Reserve';
+      return this.selectedLanguage == "Español" ? "Reserva" : "Reserve";
     },
     mesesLabel() {
-      return this.selectedLanguage == 'Español' ? 'Pagos mensuales' : 'Monthly payments';
+      return this.selectedLanguage == "Español"
+        ? "Pagos mensuales"
+        : "Monthly payments";
     },
     tipoDescuentoLabel() {
-      return this.selectedLanguage == 'Español' ? 'Elije el tipo de descuento' : 'Choose the discount type';
+      return this.selectedLanguage == "Español"
+        ? "Elije el tipo de descuento"
+        : "Choose the discount type";
     },
     porcentajeLabel() {
-      return this.selectedLanguage == 'Español' ? 'Porcentaje' : 'Percentage';
+      return this.selectedLanguage == "Español" ? "Porcentaje" : "Percentage";
     },
     fijoLabel() {
-      return this.selectedLanguage == 'Español' ? 'Fijo' : 'Fixed';
+      return this.selectedLanguage == "Español" ? "Fijo" : "Fixed";
     },
     descuentoLabel() {
-      return this.selectedLanguage == 'Español' ? 'Descuento' : 'Discount';
+      return this.selectedLanguage == "Español" ? "Descuento" : "Discount";
     },
     noHayNada() {
-      return this.selectedLanguage == 'Español' ? 'Favor de seleccionar las propiedades' : 'Please select your properties';
+      return this.selectedLanguage == "Español"
+        ? "Favor de seleccionar las propiedades"
+        : "Please select your properties";
     },
 
     precioTotal() {
       let precioTotalSum = 0;
-      for(const propiedadInfo of this.listaPropiedadesInfo) {
-        for(const propId of this.listaPropiedadesSeleccionadas) {
-          if(propiedadInfo.code == propId) {
-            precioTotalSum+= propiedadInfo.pricing.price;
+      for (const propiedadInfo of this.listaPropiedadesInfo) {
+        for (const propId of this.listaPropiedadesSeleccionadas) {
+          if (propiedadInfo.code == propId) {
+            precioTotalSum += propiedadInfo.pricing.price;
           }
         }
       }
-      if(this.moneda == 'MXN') {
+      if (this.moneda == "MXN") {
         precioTotalSum = precioTotalSum * this.tipoCambio;
       }
 
-      if(this.tipoDescuento == 'porcentaje') {
-        return precioTotalSum - precioTotalSum * this.cantidadDescuento / 100;
+      if (this.tipoDescuento == "porcentaje") {
+        return precioTotalSum - (precioTotalSum * this.cantidadDescuento) / 100;
       } else {
         return precioTotalSum - this.cantidadDescuento;
       }
@@ -655,24 +919,42 @@ export default {
       return this.cantidadReserva / this.precioTotal;
     },
     precioEnganche() {
-      if(this.porcentajeEnganche != 0) {
-        return this.porcentajeEnganche*this.precioTotal-this.cantidadReserva;
+      if (this.porcentajeEnganche != 0) {
+        return (
+          this.porcentajeEnganche * this.precioTotal - this.cantidadReserva
+        );
       } else {
-        return this.precioTotal-this.cantidadReserva;
+        return this.precioTotal - this.cantidadReserva;
       }
-      
     },
     menosDescuentoLabel() {
-      if(this.selectedLanguage == 'Español') {
-        return this.tipoDescuento == 'porcentaje' 
-        ? `(Menos ${this.cantidadDescuento}% de descuento)` 
-        : `(Menos ${this.moneda + ' '+this.monedaFormatter.format(this.cantidadDescuento)} de descuento)`;
+      if (this.selectedLanguage == "Español") {
+        return this.tipoDescuento == "porcentaje"
+          ? `(Menos ${this.cantidadDescuento}% de descuento)`
+          : `(Menos ${this.moneda +
+              " " +
+              this.monedaFormatter.format(
+                this.cantidadDescuento
+              )} de descuento)`;
       } else {
-        return this.tipoDescuento == 'porcentaje' 
-        ? `(Minus ${this.cantidadDescuento}% discount)` 
-        : `(Minus ${this.moneda + ' '+this.monedaFormatter.format(this.cantidadDescuento)} discount)`;
+        return this.tipoDescuento == "porcentaje"
+          ? `(Minus ${this.cantidadDescuento}% discount)`
+          : `(Minus ${this.moneda +
+              " " +
+              this.monedaFormatter.format(this.cantidadDescuento)} discount)`;
       }
-    }
+    },
+    datos() {
+      let d = [];
+      for (const propiedadInfo of this.listaPropiedadesInfo) {
+        for (const propId of this.listaPropiedadesSeleccionadas) {
+          if (propiedadInfo.code == propId) {
+            d.push(propiedadInfo);
+          }
+        }
+      }
+      return d;
+    },
   },
 };
 </script>
